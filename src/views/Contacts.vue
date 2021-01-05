@@ -26,7 +26,7 @@
     <mu-list v-click-outside="closeDelete">
       <div
         @touchstart="touchStart(k, $event)"
-        @touchend="touchEnd"
+        @touchend="touchEnd($event)"
         @touchmove="touchMove"
         @click="closeDelete"
         v-for="(i, k) of friends"
@@ -91,6 +91,7 @@ export default {
   methods: {
     ...mapMutations(["deleteRes"]),
     touchStart(k, e) {
+      // e.preventDefault();
       //初始化开关
       this.touchDone = false;
       e.stopPropagation();
@@ -99,7 +100,7 @@ export default {
         this.touchDone = true;
       }, 500);
     },
-    touchEnd() {
+    touchEnd(e) {
       if (!this.touchDone && this.deleteTimeout) {
         clearTimeout(this.deleteTimeout);
       }

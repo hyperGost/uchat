@@ -68,6 +68,13 @@
           <mu-list-item button @click="addFriendShowFun">
             <mu-list-item-title>添加好友</mu-list-item-title>
           </mu-list-item>
+          <mu-list-item
+            button
+            @click="clearRoom"
+            v-if="$store.state.userName === 'zhaoxin'"
+          >
+            <mu-list-item-title>清空聊天室</mu-list-item-title>
+          </mu-list-item>
         </mu-list>
       </mu-menu>
     </mu-appbar>
@@ -214,6 +221,9 @@ export default {
     ]),
   },
   methods: {
+    clearRoom() {
+      this.client.emit("clearRoom");
+    },
     addRoomShowFun() {
       this.addRoomShow = !this.addRoomShow;
       if (!this.addFriendShow) {

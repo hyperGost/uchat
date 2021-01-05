@@ -19,14 +19,13 @@
     transform: rotate(360deg);
   }
 }
-/* aa                                  */
-/* aa                                  */
 #personal_chat #msg_box_parent01 {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   background: #f4f4f4;
+  padding-bottom: 50px;
 }
 #personal_chat #chat_lists {
   width: 375px;
@@ -71,10 +70,10 @@
 }
 #personal_chat .chat_input {
   position: fixed;
-  width: 345px;
+  width: 100%;
   height: 45px;
   box-shadow: 0 0 10px rgba(5, 28, 54, 0.15);
-  bottom: 45px;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -85,9 +84,12 @@
   vertical-align: middle;
   width: 80%;
   height: 100%;
-  border: 1px solid red;
+  border: none;
+  border-top: 1px solid #2196f3;
+  outline: none;
 }
 #personal_chat .send_msg {
+  margin-right: 0.4em;
   height: 100%;
 }
 #personal_chat .people_list {
@@ -124,9 +126,6 @@
 #personal_chat .private_chat {
   left: 0 !important;
 }
-/* #personal_chat .private_chat_active{
-         transform: translateX(0px);
-     } */
 #personal_chat .back_room {
   position: absolute;
   z-index: 300;
@@ -134,17 +133,17 @@
 </style>
 <template>
   <div id="personal_chat">
-    <!-- 用户聊天消息的父元素 appendChild的那个元素 -->
-    <!-- <button @click="backRoom" class="back_room">点击返回</button> -->
-    <!-- =======私人聊天界面======== ===============================================-->
-    <!-- =======私人聊天界面======== ===============================================-->
     <my-private
       :class="privateChatClass"
       @backPrivate="backPrivate"
       :position="chatPosition"
       :style="myStyle"
     ></my-private>
-    <div :style="{ minHeight: msgBoxHeight }" id="msg_box_parent01">
+    <div
+      :style="{ minHeight: msgBoxHeight }"
+      id="msg_box_parent01"
+      ref="chatBox"
+    >
       <div id="chat_lists" class="msg_box">
         <my-header>
           <mu-button slot="topLeft" @click="roomBack" icon>
@@ -156,7 +155,6 @@
           </mu-button>
           <div slot="people">
             <div class="people_top"></div>
-            <!-- <div>{{ defaultRoom }}</div> -->
             <div v-if="$store.state.roomId == 'default'">
               <div
                 v-for="(e, k) in $store.state.defaultRoom"
@@ -215,7 +213,9 @@
         <!-- <router-link to="/" :key="$route.fullPath">回到首页</router-link> -->
         <div class="chat_input">
           <input v-model="msgValue" id="message01" type="text" />
-          <button class="send_msg" @click="sendMsg">发送</button>
+          <mu-button class="send_msg" @click="sendMsg" icon>
+            <mu-icon value="send" color="primary" size="33"></mu-icon>
+          </mu-button>
         </div>
       </div>
     </div>
@@ -333,6 +333,10 @@ export default {
         this.msgLists.push({ content: data.content, class: "not_me" });
       }
     });
+  },
+  updated() {
+    //消息框自动滚动到底部
+    this.$refs.chatBox.scrollIntoView({ block: "end" });
   },
 };
 </script>

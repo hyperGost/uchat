@@ -203,7 +203,7 @@ export default {
     },
     backPrivate() {
       this.$emit("backPrivate", "");
-      console.log(this.position);
+      // console.log(this.position);
     },
   },
   updated: function() {
@@ -214,7 +214,6 @@ export default {
   },
   mounted() {
     this.client = this.$store.state.client;
-    //console.log(this.client)
     this.myIndex = this.$store.state.index;
     var msgParent = document.getElementById("msg_box_parent");
     msgParent.style.minHeight = window.screen.height + "px";

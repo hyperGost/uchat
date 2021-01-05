@@ -50,6 +50,9 @@
 <script>
 import { mapState } from "vuex";
 export default {
+  computed: {
+    ...mapState(["offlineMessage", "friends"]),
+  },
   data() {
     return {
       client: "",
@@ -61,8 +64,10 @@ export default {
       this.$router.push(this.shift);
     },
   },
-  computed: {
-    ...mapState(["offlineMessage", "friends"]),
+  watch: {
+    $route(to, from) {
+      this.shift = to.path;
+    },
   },
   mounted() {
     //自动登录
